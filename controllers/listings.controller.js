@@ -45,10 +45,28 @@ const show = async (req, res) => {
     }
 }
 
+const deleteListing = async (req, res) => {
+    try {
+        const listing = await Listing.findById(req.params.listingId)
+
+        // Check if signed in user and listung owner match
+        if (listing.owner.equals(req.params.userId)) {
+            await listing.deleteOne() // Deletes the listing
+            res.redirect('/listings')
+        } else {
+            res.send('You do not have a permission to do that.') // If owner and listing ID does not match, send this message.
+        }
+    } catch (error) {
+        console.log(error)
+        res.redirect('/')
+    }
+}
+
 
 module.exports = {
     index,
     newListing,
     createListing,
     show,
+    deleteListing
 }

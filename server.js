@@ -29,6 +29,7 @@ const listingsCtrl = require('./controllers/listings.controller')
 
 // Middleware
 app.use(express.urlencoded({ extended: false}))
+app.use(methodOverride('_method'))
 app.use(express.static(path.join(__dirname, "public")));
 app.use(session({
     secret: process.env.SESSION_SECRET,
@@ -63,6 +64,7 @@ app.get('/listings', listingsCtrl.index)
 app.get('/listings/new', listingsCtrl.newListing)
 app.post('/listings', listingsCtrl.createListing)
 app.get('/listings/:listingId', listingsCtrl.show)
+app.delete('/listings/:userId/:listingId', listingsCtrl.deleteListing)
 
 
 app.listen(port, () => {
