@@ -12,7 +12,9 @@
     
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
         <div class="container-fluid">
-          <a class="navbar-brand" href="#">Navbar</a>
+          <a class="navbar-brand" href="#"><svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="darkblue" class="bi bi-amd" viewBox="0 0 16 16">
+            <path d="m.334 0 4.358 4.359h7.15v7.15l4.358 4.358V0zM.2 9.72l4.487-4.488v6.281h6.28L6.48 16H.2z"/>
+          </svg></a>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
@@ -24,6 +26,9 @@
             <% if (user) { %>
                     <li class="nav-item">
                 <a class="nav-link" href="/auth/sign-out">Sign Out</a>
+              </li>
+              <li>
+                <a class="nav-link" href="/listings">View all listings</a>
               </li>
               <% } else { %>
               <li class="nav-item">

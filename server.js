@@ -17,7 +17,6 @@ const port = process.env.PORT ? process.env.PORT : '3000'
 // Creates a connection in MongoDB Database
 mongoose.connect(process.env.MONGODB_URI)
 mongoose.connection.on('connected', () => {
-    console.log('hello')
     console.log(`Connected to MongoDB Database ${mongoose.connection.name}`)
 })
 
@@ -26,6 +25,7 @@ mongoose.connection.on('connected', () => {
 const pagesCtrl = require('./controllers/pages')
 const authCtrl = require('./controllers/auth')
 const vipCtrl = require('./controllers/vip')
+const listingsCtrl = require('./controllers/listings.controller')
 
 // Middleware
 app.use(express.urlencoded({ extended: false}))
@@ -54,6 +54,12 @@ app.get('/auth/sign-in', authCtrl.signInForm)
 app.post('/auth/sign-in', authCtrl.signIn)
 app.get('/auth/sign-out', authCtrl.signOut)
 app.get('/vip-lounge', isSignedIn, vipCtrl.welcome)
+
+// Below routes will only work if user is signed in
+app.use(isSignedIn)
+
+// Listings handlers
+app.get('/listings', listingsCtrl.index)
 
 
 app.listen(port, () => {
