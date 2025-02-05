@@ -60,6 +60,9 @@ app.use(isSignedIn)
 
 // Listings handlers
 app.get('/listings', listingsCtrl.index)
+app.get('/listings/new', listingsCtrl.newListing)
+app.post('/listings', listingsCtrl.createListing)
+app.get('/listings/:listingId', listingsCtrl.show)
 
 
 app.listen(port, () => {
