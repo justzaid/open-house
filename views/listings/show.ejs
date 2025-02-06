@@ -16,6 +16,18 @@
                         <a href="/listings/<%= user._id %>/<%= listing._id %>/edit">Edit this Listing</a>
                      <% } %>
                 </div>
+
+                <h5>Favorites</h5>
+                <p class="card-text">Favorited by <%= listing.favoritedByUsers.length %></p>
+                <% if (userHasFavorited) { %>
+                        <form action="/listings/<%= listing._id %>/favorited-by/<%= user._id %>?_method=DELETE" method="POST">
+                            <button type="submit" class="btn btn-info">Unfavorite 💔</button>
+                        </form>
+                    <% } else { %>
+                        <form action="/listings/<%= listing._id %>/favorited-by/<%= user._id %>" method="POST">
+                            <button type="submit" class="btn btn-info">Favorited ❤️</button>
+                        </form>
+                    <% } %>
         </div>
     </div>
 

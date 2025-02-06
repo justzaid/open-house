@@ -67,6 +67,10 @@ app.get('/listings/:listingId', listingsCtrl.show)
 app.delete('/listings/:userId/:listingId', listingsCtrl.deleteListing)
 app.get('/listings/:userId/:listingId/edit', listingsCtrl.editListing)
 app.put('/listings/:userId/:listingId', listingsCtrl.updateListing)
+app.post('/listings/:listingId/favorited-by/:userId', listingsCtrl.addFavorite)
+app.delete('/listings/:listingId/favorited-by/:userId', listingsCtrl.removeFavorite)
+
+
 
 
 app.listen(port, () => {

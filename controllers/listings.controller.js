@@ -31,12 +31,16 @@ const createListing = async (req, res) => {
 
 const show = async (req, res) => {
     try {
-        console.log('Show: ', req.params.listingId)
+        // console.log('Show: ', req.params.listingId)
         const listing = await Listing.findById(req.params.listingId).populate('owner')
-        console.log(listing)
+
+        const userHasFavorited = listing.favoritedByUsers.some((user) => user.equals(req.session.user._id))
+
+        // console.log(listing)
         res.render('listings/show.ejs', {
             title: listing.streetAddress,
-            listing
+            listing,
+            userHasFavorited,
         })
 
     } catch (error) {
@@ -90,6 +94,34 @@ const updateListing = async (req, res) => {
     }
 }
 
+const addFavorite = async (req, res) => {
+    try {
+        const listing = await Listing.findByIdAndUpdate(req.params.listingId, {
+            $push: { favoritedByUsers: req.params.userId}
+        })
+
+        res.redirect(`/listings/${listing._id}`)
+
+    } catch (error) {
+        console.log(error)
+        res.redirect('/')
+    }
+}
+
+const removeFavorite = async (req, res) => {
+    try {
+        const listing = await Listing.findByIdAndUpdate(req.params.listingId, {
+            $pull: { favoritedByUsers: req.params.userId}
+        })
+
+        res.redirect(`/listings/${listing._id}`)
+
+    } catch (error) {
+        console.log(error)
+        res.redirect('/')
+    }
+}
+
 module.exports = {
     index,
     newListing,
@@ -97,5 +129,7 @@ module.exports = {
     show,
     deleteListing,
     editListing,
-    updateListing
+    updateListing,
+    addFavorite,
+    removeFavorite,
 }
