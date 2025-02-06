@@ -62,11 +62,40 @@ const deleteListing = async (req, res) => {
     }
 }
 
+const editListing = async (req, res) => {
+    try {
+        const listing = await Listing.findById(req.params.listingId).populate('owner')
+        // console.log(listing)
+        res.render('listings/edit.ejs', {
+            title: `Edit ${listing.streetAddress}`,
+            listing
+        })
+    } catch (error) {
+        console.log(error)
+        res.redirect('/')
+    }
+}
+
+const updateListing = async (req, res) => {
+    try {
+        const listing = await Listing.findByIdAndUpdate(
+            req.params.listingId,
+            req.body,
+            {new: true}
+        )
+        res.redirect(`/listings/${listing._id}`)
+    } catch (error) {
+        console.log(error)
+        res.redirect('/')
+    }
+}
 
 module.exports = {
     index,
     newListing,
     createListing,
     show,
-    deleteListing
+    deleteListing,
+    editListing,
+    updateListing
 }
