@@ -65,6 +65,15 @@ const deleteListing = async (req, res) => {
 const editListing = async (req, res) => {
     try {
         const listing = await Listing.findById(req.params.listingId).populate('owner')
+    if (listing.owner.equals(req.params.userId)) {
+        res.render('/listings/edit.ejs', {
+            title: `Edit ${listing.streetAddress}`,
+            listing
+        })
+    } else {
+        res.send('You do not have a permission to do that.') // If owner and listing ID does not match, send this message.
+    }
+
         // console.log(listing)
         res.render('listings/edit.ejs', {
             title: `Edit ${listing.streetAddress}`,
