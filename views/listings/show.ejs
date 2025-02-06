@@ -3,19 +3,36 @@
         <div class="card mt-2" style="width: 30vw;">
             <img src="<%= listing.imgUrl %>>" class="card-img-top" alt="...">
                 <div class="card-body">
-                    <h5 class="card-title">$<%= listing.price %></h5>
+                    <h5 class="card-title">BHD <%= listing.price %></h5>
                     <p class="card-text"><%= listing.streetAddress %>, <%= listing.city %></p>
                     <p class="card-text"><%= listing.size %> m/sq</p>
                     <p class="text-muted">Listed by: <%= listing.owner.username || 'unknown' %></p>
                     <a href="/listings" class="btn btn-primary">Back to listings</a>
                     
                     <% if (listing.owner._id.equals(user._id)) { %>
+
+                        <form action="/listings/<%= user._id %>/<%= listing._id %>/edit">
+                            <button type="submit" class="btn btn-warning">Edit this Listing</button>
+                        </form>
+
                         <form action="/listings/<%= user._id %>/<%= listing._id %>?_method=DELETE" method="POST">
                             <button type="submit" class="btn btn-danger">Delete</button>
                         </form>
-                        <a href="/listings/<%= user._id %>/<%= listing._id %>/edit">Edit this Listing</a>
+
                      <% } %>
                 </div>
+
+                <h5>Favorites</h5>
+                <p class="card-text">Favorited by <%= listing.favoritedByUsers.length %></p>
+                <% if (userHasFavorited) { %>
+                        <form action="/listings/<%= listing._id %>/favorited-by/<%= user._id %>?_method=DELETE" method="POST">
+                            <button type="submit" class="btn btn-info">Unfavorite 💔</button>
+                        </form>
+                    <% } else { %>
+                        <form action="/listings/<%= listing._id %>/favorited-by/<%= user._id %>" method="POST">
+                            <button type="submit" class="btn btn-info">Favorited ❤️</button>
+                        </form>
+                    <% } %>
         </div>
     </div>
 
